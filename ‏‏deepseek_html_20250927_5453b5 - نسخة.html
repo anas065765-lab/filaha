@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>فلها وربك يحلها - ذبات وسماجات</title>
+    <style>
+        :root {
+            --navy: #2C3E50;
+            --beige: #F5F0E6;
+            --accent: #8B7355;
+            --text-dark: #4A4A4A;
+            --white: #FFFFFF;
+            --soft-blue: #3498DB;
+            --light-beige: #E8E2D6;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, 'Segoe UI', 'Tahoma', sans-serif;
+        }
+
+        body {
+            background-color: var(--beige);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        .random-memes-bar {
+            background: linear-gradient(90deg, var(--soft-blue), var(--light-beige));
+            color: var(--navy);
+            padding: 12px 0;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.1rem;
+            position: relative;
+            overflow: hidden;
+            height: 45px;
+        }
+
+        .meme-text {
+            position: absolute;
+            width: 100%;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .meme-text.active {
+            opacity: 1;
+        }
+
+        header {
+            background-color: var(--navy);
+            color: var(--white);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--light-beige);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+        }
+
+        nav a {
+            color: var(--white);
+            text-decoration: none;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .hero {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding: 2rem;
+            background: var(--white);
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .hero h1 {
+            color: var(--navy);
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            color: var(--text-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        /* قسم حكمة اليوم */
+        .wisdom-of-day {
+            background: linear-gradient(135deg, var(--soft-blue), var(--light-beige));
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            margin: 2rem 0;
+        }
+
+        .wisdom-of-day h3 {
+            color: var(--navy);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            font-weight: bold;
+        }
+
+        .wisdom-content {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: var(--navy);
+            margin: 1.5rem 0;
+            padding: 1.5rem;
+            background: rgba(255,255,255,0.8);
+            border-radius: 10px;
+            border: 2px dashed var(--navy);
+            min-height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1.5;
+        }
+
+        /* قسم المنتجات */
+        .products-slider {
+            position: relative;
+            margin: 2rem 0;
+        }
+
+        .slider-container {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            gap: 1rem;
+            padding: 1rem 0;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .slider-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        .product-slide {
+            flex: 0 0 calc(100% - 2rem);
+            scroll-snap-align: start;
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .product-title {
+            color: var(--navy);
+            font-size: 1.6rem;
+            margin-bottom: 1rem;
+        }
+
+        .product-description {
+            color: var(--text-dark);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        button {
+            background: var(--navy);
+            color: var(--white);
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            cursor: pointer;
+            margin-top: 1rem;
+            width: 100%;
+            max-width: 250px;
+            transition: all 0.3s;
+        }
+
+        button:hover {
+            background: var(--soft-blue);
+            transform: scale(1.05);
+        }
+
+        .quick-order {
+            background: var(--light-beige);
+            color: var(--navy);
+            padding: 1.2rem;
+            border-radius: 10px;
+            margin-top: 1.5rem;
+            text-align: center;
+            font-weight: bold;
+            border: 2px solid var(--accent);
+        }
+
+        /* قسم التحدي */
+        .challenge-section {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            margin: 2rem 0;
+            border: 3px solid var(--soft-blue);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .challenge-btn {
+            background: var(--soft-blue);
+            font-size: 1.2rem;
+            padding: 1.2rem 2rem;
+        }
+
+        /* قسم الاتصال - رجعت كما كان */
+        .contact-section {
+            background: var(--navy);
+            color: var(--white);
+            padding: 2.5rem 1rem;
+            border-radius: 15px;
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .contact-section h2 {
+            margin-bottom: 1rem;
+            font-size: 1.6rem;
+        }
+
+        .whatsapp-btn {
+            display: inline-block;
+            background: #25D366;
+            color: white;
+            padding: 1.2rem 2.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 1rem;
+            transition: all 0.3s;
+            font-size: 1.1rem;
+        }
+
+        .whatsapp-btn:hover {
+            background: #128C7E;
+            transform: scale(1.05);
+        }
+
+        footer {
+            background: var(--navy);
+            color: var(--white);
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        @media (min-width: 768px) {
+            .product-slide {
+                flex: 0 0 calc(50% - 1rem);
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .product-slide {
+                flex: 0 0 calc(33.333% - 1rem);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- شريط الذبات العشوائي - رجع -->
+    <div class="random-memes-bar">
+        <div class="meme-text active" id="meme1">😂 اليوم ذبت على نفسي وأنا أدور النظارة وهي على راسي!</div>
+        <div class="meme-text" id="meme2">🔥 لا تصدق كل ما تسمع.. يمكنك تصدق نصفه!</div>
+        <div class="meme-text" id="meme3">🎯 أنا ما عندي مشكلة بالنوم.. المشكلة أني ما أقدر أنهض!</div>
+        <div class="meme-text" id="meme4">🚀 لو الحياة سهلة كان اسمها 'مافيش حياة'!</div>
+        <div class="meme-text" id="meme5">💀 أقسم بالله إن الذكاء الصناعي أذكى مني!</div>
+    </div>
+
+    <header>
+        <div class="header-content">
+            <div class="logo">فلها وربك يحلها 😂</div>
+            <nav>
+                <ul>
+                    <li><a href="#products">المنتجات</a></li>
+                    <li><a href="#wisdom-of-day">حكمة اليوم</a></li>
+                    <li><a href="#contact">الطلب</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <section class="hero">
+            <h1>✨ مرحباً بكم في عالم الضحك والذبات ✨</h1>
+            <p>قصص غريبة، نكت سمجة، أفكار نص الليل اللي تجي وانت جوعان وما معك إلا آخر ريال 😂</p>
+            <p>كل الترفيه بمكان واحد… وبسعر رمزي ما يجيب الهم والغم 💸</p>
+        </section>
+
+        <!-- قسم حكمة اليوم -->
+        <section id="wisdom-of-day" class="wisdom-of-day">
+            <h3>💡 حكمة اليوم 💡</h3>
+            <div class="wisdom-content" id="daily-wisdom">
+                "أحياناً الصمت أبلغ من الكلام.. خاصة إذا كان الكلام كله ذبات!"
+            </div>
+            <button onclick="newDailyWisdom()">🔄 جيب لي حكمة جديدة</button>
+        </section>
+
+        <!-- قسم المنتجات -->
+        <section id="products" class="section">
+            <h2 class="section-title">🛍 منتجاتنا</h2>
+            
+            <div class="products-slider">
+                <div class="slider-container" id="sliderContainer">
+                    <!-- المنتج 1 -->
+                    <div class="product-slide">
+                        <div class="product-title">📚 ماوراء الأعين</div>
+                        <div class="product-description">
+                            كل قصة تأخذك إلى عالم مختلف؛ من بيوت مهجورة و منتصف الليل، إلى ظلال تتحرك من تلقاء نفسها وأسرار قديمة كان من الأفضل ألا تُكشف
+                        </div>
+                        <button onclick="orderProduct('ماوراء الأعين')">🛒 اطلب الآن</button>
+                    </div>
+                    
+                    <!-- المنتج 2 -->
+                    <div class="product-slide">
+                        <div class="product-title">🌟 غرائب عجائب</div>
+                        <div class="product-description">
+                            ليس كل القصص مخيفة او مضحكة قد تكون غريبة. قصص وعجائب من العالم تجعلك تقول "سبحان الله!"
+                        </div>
+                        <button onclick="orderProduct('غرائب عجائب')">🛒 اطلب الآن</button>
+                    </div>
+                    
+                    <!-- المنتج 3 -->
+                    <div class="product-slide">
+                        <div class="product-title">😂 سماجة سامجة مسموجة</div>
+                        <div class="product-description">
+                            سماجات تناسب كل الأذواق. نكت ومواقف مضحكة تخليك تضحك حتى على نفسك!
+                        </div>
+                        <button onclick="orderProduct('سماجة سامجة مسموجة')">🛒 اطلب الآن</button>
+                    </div>
+
+                    <!-- المنتج 4 -->
+                    <div class="product-slide">
+                        <div class="product-title">💡 أفكار نص الليل</div>
+                        <div class="product-description">
+                            مجموعة من أغرب الأفكار اللي ممكن تسمعها. أفكار تجي في منتصف الليل وتخليك تتساءل عن حياتك!
+                        </div>
+                        <button onclick="orderProduct('أفكار نص الليل')">🛒 اطلب الآن</button>
+                    </div>
+
+                    <!-- المنتج 5 -->
+                    <div class="product-slide">
+                        <div class="product-title">🔮 غريب عجيب فريد</div>
+                        <div class="product-description">
+                            أمور غريبة تحدث حول العالم وليس كل شيء له دليل او تفسير. قصص حقيقية وأحداث عجيبة تثير الدهشة والتعجب.
+                        </div>
+                        <button onclick="orderProduct('غريب عجيب فريد')">🛒 اطلب الآن</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="quick-order">
+                💰 جميع المنتجات بسعر 45 ليرة تركية فقط | 📞 للطلب: 538 548 12 75
+            </div>
+        </section>
+
+        <!-- قسم التحدي -->
+        <section class="challenge-section">
+            <h3>🎯 تحدى السماجة!</h3>
+            <p>شاركنا بأسمج ذبة عندك واربح خصم 50%</p>
+            <button class="challenge-btn" onclick="startChallenge()">💪 ابدأ التحدي</button>
+        </section>
+
+        <!-- قسم الاتصال - رجع كما كان -->
+        <section id="contact" class="contact-section">
+            <h2>📞 للطلب السريع</h2>
+            <p>تواصل معنا مباشرة على الواتساب</p>
+            <a href="https://wa.me/905385481275?text=مرحباً، أريد طلب منتج من موقعكم" 
+               class="whatsapp-btn" target="_blank">
+               💬 اطلب على الواتساب
+            </a>
+            <p style="margin-top: 1rem; font-weight: bold;">رقم الجوال: 538 548 12 75</p>
+        </section>
+    </div>
+
+    <footer>
+        <p>© 2024 فلها وربك يحلها. جميع الحقوق محفوظة.</p>
+        <p>موقع ذبات وسماجات وكل ما يضحك 🤣</p>
+    </footer>
+
+    <script>
+        // الذبات العشوائية - رجع
+        const memes = [
+            "😂 اليوم ذبت على نفسي وأنا أدور النظارة وهي على راسي!",
+            "🔥 لا تصدق كل ما تسمع.. يمكنك تصدق نصفه!",
+            "🎯 أنا ما عندي مشكلة بالنوم.. المشكلة أني ما أقدر أنهض!",
+            "🚀 لو الحياة سهلة كان اسمها 'مافيش حياة'!",
+            "💀 أقسم بالله إن الذكاء الصناعي أذكى مني!",
+            "🎭 أنا مش فاشل.. أنا مجرد نسخة تجريبية من النجاح!",
+            "🤣 أسمج مني ما شفتها.. مرة بكيت على بصل!",
+            "👻 لو الضحك يحرق سعرات حرارية.. كنت صرت عود ثقاب!",
+            "💸 أحسن استثمار في حياتي.. ما سويته!",
+            "🌙 أنا ما عندي مشكلة في السهر.. المشكلة في الصحوة!"
+        ];
+
+        // حكم اليوم - 20 حكمة عشوائية
+        const dailyWisdoms = [
+            "أحياناً الصمت أبلغ من الكلام.. خاصة إذا كان الكلام كله ذبات!",
+            "الضحك دواء مجاني.. لكن الذبات تحتاج توصيلة!",
+            "لا تؤجل ذبة اليوم إلى الغد.. يمكن تنسى وتصير سماجة!",
+            "أحسن من يضحك على نفسه.. عشان محد يسبقه!",
+            "إذا الحياة ضحكتك.. اضحك لها عشان ما تزعل!",
+            "بعض الذبات تحتاج شهادة ثانوية عشان تفهمها!",
+            "الذكاء صناعي يعرف يكتب ذبات.. والطبيعي يعرف يضحك عليها!",
+            "إذا ما عندك حكمة.. خلي عندك ذبة!",
+            "أحسن شيء في السوشل ميديا.. إنك تقدر تسكت الناس وأنت ساكت!",
+            "لا تثق بأحد يحسب نفسه فاشل.. يمكن هو فعلاً فاشل!",
+            "إذا ما عجبك الوضع.. غير التلفزيون!",
+            "بعض الأحيان أتساءل: ليه العقل ب20 ريال والهمبرقر ب40؟!",
+            "أنا ما عندي مشكلة مع النادي.. المشكلة مع المرآة اللي فيه!",
+            "أحسن استثمار في حياتي.. ما سويته!",
+            "إذا كنت تظن أنك صغير على الحكمة.. فأنت كبير على الذبات!",
+            "الضحك لا يكلف شيئاً.. لكنه قد يكسبك أصدقاء!",
+            "لا تحزن إذا سقطت.. يمكن الأرض كانت تحتاج حضن!",
+            "أحلم بعالم.. تكون فيه الذبات عملة صعبة!",
+            "إذا ما قدرت تغير العالم.. غير وجهتك!",
+            "الحياة بسيطة.. لكن نحن من نعقدها بالذبات!"
+        ];
+
+        let currentMemeIndex = 0;
+        
+        function rotateMemes() {
+            const memeElements = document.querySelectorAll('.meme-text');
+            memeElements.forEach(el => el.classList.remove('active'));
+            
+            currentMemeIndex = (currentMemeIndex + 1) % memes.length;
+            const currentElement = document.querySelector(`.meme-text:nth-child(${(currentMemeIndex % 5) + 1})`);
+            currentElement.textContent = memes[currentMemeIndex];
+            currentElement.classList.add('active');
+        }
+
+        function newDailyWisdom() {
+            const randomIndex = Math.floor(Math.random() * dailyWisdoms.length);
+            const randomWisdom = dailyWisdoms[randomIndex];
+            document.getElementById('daily-wisdom').textContent = `"${randomWisdom}"`;
+        }
+
+        function startChallenge() {
+            const userMeme = prompt("شاركنا بأسمج ذبة عندك:");
+            if (userMeme) {
+                alert(`😂 والله ذبتنا! راح تتواصل معك على الواتساب لتفوز بالخصم!\n\nذبتك: "${userMeme}"`);
+            }
+        }
+
+        function orderProduct(productName) {
+            alert(`🚀 طلب: ${productName}\n\nراح نفتح الواتساب عشان تكمل طلبك!`);
+            window.open('https://wa.me/905385481275?text=مرحباً، أريد طلب ' + productName, '_blank');
+        }
+
+        // تهيئة الموقع
+        document.addEventListener('DOMContentLoaded', function() {
+            // بدء الدوران التلقائي للذبات كل 4 ثواني
+            setInterval(rotateMemes, 4000);
+        });
+    </script>
+</body>
+</html>
